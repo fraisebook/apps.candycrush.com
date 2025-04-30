@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -12,8 +12,8 @@
       background-color: #f0f2f5;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
-      overflow-x: hidden;
+      height: 100vh;
+      overflow: hidden;
     }
     header {
       width: 100%;
@@ -38,39 +38,33 @@
       border-radius: 4px;
     }
     .content {
-      margin-top: 38px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      background-color: #f0f2f5;
-      flex-grow: 1;
+      margin-top: 38px;
+      height: calc(100vh - 38px);
     }
-    .game-container {
-      width: 100%;
-      max-width: 100%;
-      background: white;
+    .game-area {
+      flex: 1;
+      background: #ffffff;
       display: flex;
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      padding-top: 20px;
-      padding-bottom: 20px;
     }
-    iframe {
+    .game-container {
       width: 709px;
       height: 606px;
-      border: none;
       background: white;
+      position: relative;
     }
     .sidebar {
-      width: 300px;
+      width: 450px;
       background: white;
       display: flex;
       flex-direction: column;
+      justify-content: flex-end;
       align-items: center;
       padding: 20px;
-      margin-top: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-sizing: border-box;
     }
     .credits {
       font-size: 12px;
@@ -88,8 +82,34 @@
       font-size: 12px;
     }
     .king-logo {
-      width: 150px;
-      margin-top: 20px;
+      width: 200px;
+      margin-top: 10px;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: white;
+    }
+    .loading-screen {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    .loading-screen img {
+      width: 100px;
+      height: auto;
+    }
+    .loading-screen p {
+      font-size: 18px;
+      color: black;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -100,16 +120,15 @@
   </header>
 
   <div class="content">
-    <div class="game-container">
-      <iframe 
-        src="https://6games.eu/files/file/CandyCrushSagaAS3v2WG.swf?ibpro_gameid=11384&arcadegid=11384" 
-        allowfullscreen 
-        allow="fullscreen; autoplay; clipboard-write; encrypted-media"
-        pluginspage="http://www.adobe.com/go/getflashplayer">
-      </iframe>
+    <div class="game-area">
+      <div class="game-container">
+        <div class="loading-screen" id="loadingScreen">
+          <img src="https://i.postimg.cc/pLZ02xSP/Wheel-Loading.webp" alt="Chargement">
+          <p>LOADING</p>
+        </div>
+        <iframe id="gameFrame" src="" allowfullscreen></iframe>
+      </div>
     </div>
-
-    <img src="https://i.postimg.cc/66z8vXH2/king-logo-2.png" alt="King logo" class="king-logo">
 
     <div class="sidebar">
       <div class="credits">
@@ -117,6 +136,7 @@
         <button class="lang-btn" onclick="setLanguage('fr')">Français</button>
         <button class="lang-btn" onclick="setLanguage('he')">עברית</button>
         <button class="lang-btn" onclick="setLanguage('gr')">Gerlandais</button>
+        <br><img src="https://i.postimg.cc/66z8vXH2/king-logo-2.png" alt="King logo" class="king-logo">
       </div>
     </div>
   </div>
@@ -130,6 +150,13 @@
     function setLanguage(lang) {
       document.getElementById("game-title").innerText = translations[lang] || translations.fr;
     }
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("loadingScreen").style.display = "none";
+        document.getElementById("gameFrame").src = "https://6games.eu/files/file/CandyCrushSagaAS3v2WG.swf?ibpro_gameid=11384&arcadegid=11384";
+      }, 5000);
+    });
   </script>
 </body>
 </html>
